@@ -1,0 +1,169 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  background-image: url('./assets/home.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.main-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;  
+}
+
+.ancients-wrap {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+  flex-wrap:wrap;
+  margin: 20px;
+}
+
+.ancient {
+  width: 200px;
+  height: 260px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.ancient-active {
+  border: 3px solid red; 
+}
+
+.azathoth {
+  background-image: url('./assets/Ancients/Azathoth.jpg');
+}
+
+.cthulthu {
+  background-image: url('./assets/Ancients/Cthulthu.jpg');
+}
+
+.logsothoth {
+  background-image: url('./assets/Ancients/IogSothoth.jpg');
+}
+
+.shubniggurath {
+  background-image: url('./assets/Ancients/ShubNiggurath.jpg');
+}
+
+.difficulties-wrap {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.difficulty,
+.mix {
+  width: 160px;
+  padding: 10px 5px;
+  border: 2px solid yellow;
+  cursor: pointer;
+}
+
+.difficulty-active,
+.mix {
+  background-color: blue;
+}
+
+.mix-wrap {
+  display: none;
+}
+
+.mix {
+  width: 240px;
+}
+
+.mix-active {
+  display: block;
+}
+
+.stages-wrap {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 20px;
+  font-size: 20px;
+}
+
+.stages {
+  width: 200px;
+  padding: 15px;
+  background-color: rgba(201, 201, 201, 0.3);
+}
+
+.stage {
+  margin-top: 20px;
+}
+
+.stage:first-child {
+  margin-top: 0;
+}
+
+.tracker {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px;
+}
+
+.track {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.green-track {
+  background-color: green;
+}
+
+.brown-track {
+  background-color: rgb(203, 83, 23);
+}
+
+.blue-track {
+  background-color: rgb(31, 31, 197);
+}
+
+.card-deck,
+.current-card {
+  width: 143px;
+  height: 209px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.card-deck {
+  background-image: url('./assets/mythicCardBackground.jpg');
+  cursor: pointer;
+}
+
+
+
+
+

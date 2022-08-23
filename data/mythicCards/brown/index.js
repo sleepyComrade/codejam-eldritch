@@ -126,7 +126,7 @@ export const cardsData = [
     cardFace: '../../../assets/MythicCards/brown/brown21.jpg',
     difficulty: 'easy',
     color:'brown'
-  },
+  }
 ]
 
 // export default cardsData

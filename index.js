@@ -1,9 +1,5 @@
-import {
-  ancientsData
-} from "./data/ancients.js";
-import {
-  difficulties
-} from "./data/difficulties.js";
+import { ancientsData } from "./data/ancients.js";
+import { difficulties } from "./data/difficulties.js";
 import { cardsData as blueCardsData } from "./data/mythicCards/blue/index.js";
 import { cardsData as brownCardsData } from "./data/mythicCards/brown/index.js";
 import { cardsData as greenCardsData } from "./data/mythicCards/green/index.js";
@@ -16,6 +12,7 @@ const stagesWrap = document.querySelector('.stages-wrap');
 let currentAncient;
 let currentDifficulty;
 
+//choose an ancient and show 
 ancients.forEach((el, i) => {
   el.addEventListener('click', () => {
     difficultiesWrap.style.visibility = 'visible';
@@ -30,6 +27,7 @@ ancients.forEach((el, i) => {
   })
 })
 
+//choose difficulty and show shuffle button
 difficultiesBut.forEach((el, i) => {
   el.addEventListener('click', () => {
     if (!el.classList.contains('difficulty-active')) {
@@ -47,7 +45,91 @@ difficultiesBut.forEach((el, i) => {
   })
 })
 
+//shuffle any deck
+const shuffleCards = (deck) => {
+  for (let i = deck.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * i);
+    let temp = deck[i];
+    deck[i] = deck[j];
+    deck[j] = temp;
+  }
+}
+
+//get game deck
+const getMythDeck = (green, brown, blue, ancient) => {
+  const cards = [green, brown, blue];
+  const mainDecks = [[], [], []];
+  const mythDecks = [[], [], []];
+  const stageDecks = [[], [], []];
+
+  let greenQty = ancient.firstStage.greenCards + ancient.secondStage.greenCards + ancient.thirdStage.greenCards;
+  let brownQty = ancient.firstStage.brownCards + ancient.secondStage.brownCards + ancient.thirdStage.brownCards;
+  let blueQty = ancient.firstStage.blueCards + ancient.secondStage.blueCards + ancient.thirdStage.blueCards;
+  const quantities = [greenQty, brownQty, blueQty];
+  console.log(quantities);
+
+  if (currentDifficulty === 'very easy') {
+    cards.forEach((el, i) => {
+      el.forEach(e => {
+        if (e.difficulty !== 'hard') {
+          mainDecks[i].push(e);
+        }
+      })
+    })
+
+    mainDecks.forEach(el => {
+      shuffleCards(el);
+    })
+    console.log(mainDecks);
+
+    for (let i = 0; i < 2; i++) {
+      mainDecks.forEach((el, i) => {
+        el.forEach((e, j) => {
+          if (e.difficulty === 'easy' && mythDecks[i].length < quantities[i]) {
+            mythDecks[i].push(e);
+            mainDecks[i].splice(j, 1);
+          }
+        })
+      })
+    }
+
+    mainDecks.forEach((el, i) => {
+      while (mythDecks[i].length < quantities[i]) {
+        mythDecks[i].push(el.pop());
+      }
+    })
+  }
+
+  mythDecks.forEach(el => {
+    shuffleCards(el);
+  })
+
+  const stageNum = ['firstStage', 'secondStage', 'thirdStage'];
+  const cardColors = ['greenCards', 'brownCards', 'blueCards'];
+  mythDecks.forEach((el, i) => {
+    stageDecks.forEach((e, k) => {
+      for (let j = 0; j < ancient[stageNum[k]][cardColors[i]]; j++) {
+        e.push(el.pop());
+      }
+    })
+  })
+
+  stageDecks.forEach(el => {
+    shuffleCards(el);
+  })
+
+  console.log(mainDecks);
+  console.log(mythDecks);
+  console.log(stageDecks);
+
+  return [...stageDecks[2], ...stageDecks[1], ...stageDecks[0]];
+}
+
+//show the table and get game deck
+let gameDeck;
 mixWrap.addEventListener('click', () => {
   mixWrap.classList.remove('mix-active');
   stagesWrap.style.visibility = 'visible';
+  gameDeck = getMythDeck(greenCardsData, brownCardsData, blueCardsData, currentAncient);
+  console.log(gameDeck);
 })

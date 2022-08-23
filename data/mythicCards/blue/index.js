@@ -72,7 +72,7 @@ export const cardsData = [
     cardFace: '../../../assets/MythicCards/blue/blue12.jpg',
     difficulty: 'normal',
     color:'blue'
-  },
+  }
 ]
 
 // export default cardsData

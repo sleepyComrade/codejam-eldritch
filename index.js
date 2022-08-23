@@ -9,6 +9,8 @@ const difficultiesWrap = document.querySelector('.difficulties-wrap');
 const difficultiesBut = document.querySelectorAll('.difficulty');
 const mixWrap = document.querySelector('.mix-wrap');
 const stagesWrap = document.querySelector('.stages-wrap');
+const cardDeckBg = document.querySelector('.card-deck');
+const tableCurrCard = document.querySelector('.current-card');
 let currentAncient;
 let currentDifficulty;
 
@@ -32,6 +34,7 @@ difficultiesBut.forEach((el, i) => {
   el.addEventListener('click', () => {
     if (!el.classList.contains('difficulty-active')) {
       stagesWrap.style.visibility = 'hidden';
+      cardDeckBg.style.visibility = 'hidden';
       mixWrap.classList.add('mix-active');
     }
     currentDifficulty = difficulties[i].id;
@@ -66,7 +69,6 @@ const getMythDeck = (green, brown, blue, ancient) => {
   let brownQty = ancient.firstStage.brownCards + ancient.secondStage.brownCards + ancient.thirdStage.brownCards;
   let blueQty = ancient.firstStage.blueCards + ancient.secondStage.blueCards + ancient.thirdStage.blueCards;
   const quantities = [greenQty, brownQty, blueQty];
-  console.log(quantities);
 
   if (currentDifficulty === 'very easy') {
     cards.forEach((el, i) => {
@@ -80,7 +82,6 @@ const getMythDeck = (green, brown, blue, ancient) => {
     mainDecks.forEach(el => {
       shuffleCards(el);
     })
-    console.log(mainDecks);
 
     for (let i = 0; i < 2; i++) {
       mainDecks.forEach((el, i) => {
@@ -130,6 +131,17 @@ let gameDeck;
 mixWrap.addEventListener('click', () => {
   mixWrap.classList.remove('mix-active');
   stagesWrap.style.visibility = 'visible';
+  cardDeckBg.style.visibility = 'visible';
   gameDeck = getMythDeck(greenCardsData, brownCardsData, blueCardsData, currentAncient);
   console.log(gameDeck);
+})
+
+cardDeckBg.addEventListener('click', () => {
+  if (gameDeck.length > 0) {
+    const currentCard = gameDeck.pop();
+    tableCurrCard.style.backgroundImage = `url(${currentCard.cardFace})`;
+    if (gameDeck.length === 0) {
+      cardDeckBg.style.visibility = 'hidden';
+    }
+  }
 })

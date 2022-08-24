@@ -30,7 +30,6 @@ ancients.forEach((el, i) => {
         mixWrap.classList.add('mix-active');
       }
     }
-
     currentAncient = ancientsData[i];
     ancients.forEach((e, j) => {
       if (j === i) {
@@ -70,7 +69,7 @@ const setTrackers = () => {
       currentTracks.push(currentAncient[el][e])
     })
   })
-  
+
   trackers.forEach((el, i) => {
     el.textContent = currentTracks[i];
   })
@@ -98,7 +97,7 @@ const getMythDeck = (green, brown, blue, ancient, stage, color) => {
   let blueQty = ancient.firstStage.blueCards + ancient.secondStage.blueCards + ancient.thirdStage.blueCards;
   const quantities = [greenQty, brownQty, blueQty];
   const variations = ['easy', 'hard', 'default'];
-
+  //get myth decks depending on current difficulty
   const getMythDecks = (get, avoid) => {
     cards.forEach((el, i) => {
       el.forEach(e => {
@@ -124,7 +123,7 @@ const getMythDeck = (green, brown, blue, ancient, stage, color) => {
         })
       }
     }
-    
+
     mainDecks.forEach((el, i) => {
       while (mythDecks[i].length < quantities[i]) {
         mythDecks[i].push(el.pop());
@@ -141,11 +140,11 @@ const getMythDeck = (green, brown, blue, ancient, stage, color) => {
   if (currentDifficulty === 'normal') {
     getMythDecks(variations[2], variations[2]);
   }
-
+  //shuffle myth decks
   mythDecks.forEach(el => {
     shuffleCards(el);
   })
-
+  //get stages decks
   mythDecks.forEach((el, i) => {
     stageDecks.forEach((e, k) => {
       for (let j = 0; j < ancient[stage[k]][color[i]]; j++) {
@@ -153,13 +152,12 @@ const getMythDeck = (green, brown, blue, ancient, stage, color) => {
       }
     })
   })
-
+  //shuffle stages decks
   stageDecks.forEach(el => {
     shuffleCards(el);
   })
-
+  //set initial values of trackers depending on current ancient
   setTrackers();
-
   return [...stageDecks[2], ...stageDecks[1], ...stageDecks[0]];
 }
 
@@ -169,6 +167,7 @@ mixWrap.addEventListener('click', () => {
   mixWrap.classList.remove('mix-active');
   stagesWrap.style.visibility = 'visible';
   cardDeckBg.style.visibility = 'visible';
+  cardDeckBg.style.backgroundImage = `url('./assets/mythicCardBackground.jpg')`;
   gameDeck = getMythDeck(greenCardsData, brownCardsData, blueCardsData, currentAncient, stageNum, cardColors);
 })
 
@@ -184,7 +183,7 @@ cardDeckBg.addEventListener('click', () => {
     trackers[curTrack].textContent = currentTracks[curTrack];
 
     if (gameDeck.length === 0) {
-      cardDeckBg.style.visibility = 'hidden';
+      cardDeckBg.style.backgroundImage = `none`;
     }
   }
 })

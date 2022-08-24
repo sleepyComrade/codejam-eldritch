@@ -26,6 +26,7 @@ body {
 }
 
 .ancients-wrap {
+  width: 40%;
   height: 95%;
   display: flex;
   flex-direction: column;
@@ -43,10 +44,17 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.1s ease;
+}
+
+.ancient:hover {
+  scale: 1.05;
 }
 
 .ancient-active {
-  border: 3px solid red; 
+  /* border: 3px solid red; */
+  box-shadow: 0 0 4px 3px rgb(49, 7, 76), 0 0 10px 5px rgb(176, 91, 219); 
 }
 
 .azathoth {
@@ -66,9 +74,11 @@ body {
 }
 
 .difficulties-wrap {
+  width: 20%;
   display: flex;
   gap: 20px;
   flex-direction: column;
+  align-items: center;
   visibility: hidden;
 }
 
@@ -76,17 +86,24 @@ body {
 .mix {
   width: 160px;
   padding: 10px 5px;
-  border: 2px solid yellow;
+  border: 2px solid rgba(233, 233, 50, 0.8);
+  border-radius: 8px;
   cursor: pointer;
+  transition: all .1s ease;
+}
+
+.difficulty:hover {
+  scale: 1.05;
 }
 
 .difficulty-active,
-.mix {
-  background-color: blue;
+.mix:hover {
+  background-color: rgba(98, 36, 136, 0.5);
 }
 
 .table {
   position: relative;
+  width: 40%;
 }
 
 .mix-wrap {
@@ -106,7 +123,6 @@ body {
 }
 
 .stages-wrap {
-  width: 240px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -118,9 +134,9 @@ body {
 }
 
 .stages {
-  width: 200px;
-  padding: 15px;
-  background-color: rgba(201, 201, 201, 0.3);
+  width: 180px;
+  padding: 10px 5px;
+  border-radius: 10px;
 }
 
 .stage {
@@ -152,11 +168,16 @@ body {
 }
 
 .brown-track {
-  background-color: rgb(203, 83, 23);
+  background-color: rgb(166, 124, 26);
 }
 
 .blue-track {
-  background-color: rgb(31, 31, 197);
+  background-color: rgb(60, 53, 186);
+}
+
+.card-space {
+  display: flex;
+  gap: 15px;
 }
 
 .card-deck,
@@ -166,14 +187,16 @@ body {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 3px 3px 3px rgb(15, 15, 15);
+  border-radius: 10px;
+  transition: box-shadow .1s ease;
 }
 
 .card-deck {
-  background-image: url('./assets/mythicCardBackground.jpg');
   cursor: pointer;
 }
 
-
-
-
-
+.card-deck:active {
+  box-shadow: none;
+}

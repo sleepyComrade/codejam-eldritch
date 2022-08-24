@@ -1,5 +1,3 @@
-// import blueCardsAssets from '../../../assets/MythicCards/blue';
-
 export const cardsData = [
   {
     id: 'blue1',
@@ -74,5 +72,3 @@ export const cardsData = [
     color:'blue'
   }
 ]
-
-// export default cardsData

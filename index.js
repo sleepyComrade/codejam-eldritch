@@ -163,10 +163,17 @@ mixWrap.addEventListener('click', () => {
   console.log(gameDeck);
 })
 
+//show current card
 cardDeckBg.addEventListener('click', () => {
   if (gameDeck.length > 0) {
     const currentCard = gameDeck.pop();
     tableCurrCard.style.backgroundImage = `url(${currentCard.cardFace})`;
+    //set trackers depending on current card
+    let colorTracks = currentCard.color === 'green' ? [0, 3, 6] : currentCard.color === 'brown' ? [1, 4, 7] : [2, 5, 8];
+    let curTrack = currentTracks[colorTracks[0]] > 0 ? colorTracks[0] : currentTracks[colorTracks[1]] > 0 ? colorTracks[1] : colorTracks[2];
+    currentTracks[curTrack]--;
+    trackers[curTrack].textContent = currentTracks[curTrack];
+
     if (gameDeck.length === 0) {
       cardDeckBg.style.visibility = 'hidden';
     }

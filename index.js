@@ -13,11 +13,23 @@ const cardDeckBg = document.querySelector('.card-deck');
 const tableCurrCard = document.querySelector('.current-card');
 let currentAncient;
 let currentDifficulty;
+const trackers = document.querySelectorAll('.tracker-text');
+const stageNum = ['firstStage', 'secondStage', 'thirdStage'];
+const cardColors = ['greenCards', 'brownCards', 'blueCards'];
+let currentTracks;
 
 //choose an ancient and show 
 ancients.forEach((el, i) => {
   el.addEventListener('click', () => {
     difficultiesWrap.style.visibility = 'visible';
+    stagesWrap.style.visibility = 'hidden';
+    cardDeckBg.style.visibility = 'hidden';
+    tableCurrCard.style.backgroundImage = 'none';
+
+    if (currentDifficulty) {
+      mixWrap.classList.add('mix-active');
+    }
+
     currentAncient = ancientsData[i];
     ancients.forEach((e, j) => {
       if (j === i) {
@@ -36,6 +48,7 @@ difficultiesBut.forEach((el, i) => {
       stagesWrap.style.visibility = 'hidden';
       cardDeckBg.style.visibility = 'hidden';
       mixWrap.classList.add('mix-active');
+      tableCurrCard.style.backgroundImage = 'none';
     }
     currentDifficulty = difficulties[i].id;
     difficultiesBut.forEach((e, j) => {
@@ -48,6 +61,20 @@ difficultiesBut.forEach((el, i) => {
   })
 })
 
+//define tracker initial numbers
+const setTrackers = () => {
+  currentTracks = [];
+  stageNum.forEach(el => {
+    cardColors.forEach(e => {
+      currentTracks.push(currentAncient[el][e])
+    })
+  })
+  
+  trackers.forEach((el, i) => {
+    el.textContent = currentTracks[i];
+  })
+}
+
 //shuffle any deck
 const shuffleCards = (deck) => {
   for (let i = deck.length - 1; i > 0; i--) {
@@ -59,7 +86,7 @@ const shuffleCards = (deck) => {
 }
 
 //get game deck
-const getMythDeck = (green, brown, blue, ancient) => {
+const getMythDeck = (green, brown, blue, ancient, stage, color) => {
   const cards = [green, brown, blue];
   const mainDecks = [[], [], []];
   const mythDecks = [[], [], []];
@@ -105,11 +132,9 @@ const getMythDeck = (green, brown, blue, ancient) => {
     shuffleCards(el);
   })
 
-  const stageNum = ['firstStage', 'secondStage', 'thirdStage'];
-  const cardColors = ['greenCards', 'brownCards', 'blueCards'];
   mythDecks.forEach((el, i) => {
     stageDecks.forEach((e, k) => {
-      for (let j = 0; j < ancient[stageNum[k]][cardColors[i]]; j++) {
+      for (let j = 0; j < ancient[stage[k]][color[i]]; j++) {
         e.push(el.pop());
       }
     })
@@ -119,6 +144,8 @@ const getMythDeck = (green, brown, blue, ancient) => {
     shuffleCards(el);
   })
 
+  setTrackers();
+  
   console.log(mainDecks);
   console.log(mythDecks);
   console.log(stageDecks);
@@ -132,7 +159,7 @@ mixWrap.addEventListener('click', () => {
   mixWrap.classList.remove('mix-active');
   stagesWrap.style.visibility = 'visible';
   cardDeckBg.style.visibility = 'visible';
-  gameDeck = getMythDeck(greenCardsData, brownCardsData, blueCardsData, currentAncient);
+  gameDeck = getMythDeck(greenCardsData, brownCardsData, blueCardsData, currentAncient, stageNum, cardColors);
   console.log(gameDeck);
 })
 

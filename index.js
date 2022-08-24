@@ -21,13 +21,14 @@ let currentTracks;
 //choose an ancient and show 
 ancients.forEach((el, i) => {
   el.addEventListener('click', () => {
-    difficultiesWrap.style.visibility = 'visible';
-    stagesWrap.style.visibility = 'hidden';
-    cardDeckBg.style.visibility = 'hidden';
-    tableCurrCard.style.backgroundImage = 'none';
-
-    if (currentDifficulty) {
-      mixWrap.classList.add('mix-active');
+    if (!el.classList.contains('ancient-active')) {
+      difficultiesWrap.style.visibility = 'visible';
+      stagesWrap.style.visibility = 'hidden';
+      cardDeckBg.style.visibility = 'hidden';
+      tableCurrCard.style.backgroundImage = 'none';
+      if (currentDifficulty) {
+        mixWrap.classList.add('mix-active');
+      }
     }
 
     currentAncient = ancientsData[i];
@@ -96,11 +97,12 @@ const getMythDeck = (green, brown, blue, ancient, stage, color) => {
   let brownQty = ancient.firstStage.brownCards + ancient.secondStage.brownCards + ancient.thirdStage.brownCards;
   let blueQty = ancient.firstStage.blueCards + ancient.secondStage.blueCards + ancient.thirdStage.blueCards;
   const quantities = [greenQty, brownQty, blueQty];
+  const variations = ['easy', 'hard', 'default'];
 
-  if (currentDifficulty === 'very easy') {
+  const getMythDecks = (get, avoid) => {
     cards.forEach((el, i) => {
       el.forEach(e => {
-        if (e.difficulty !== 'hard') {
+        if (e.difficulty !== avoid) {
           mainDecks[i].push(e);
         }
       })
@@ -110,22 +112,34 @@ const getMythDeck = (green, brown, blue, ancient, stage, color) => {
       shuffleCards(el);
     })
 
-    for (let i = 0; i < 2; i++) {
-      mainDecks.forEach((el, i) => {
-        el.forEach((e, j) => {
-          if (e.difficulty === 'easy' && mythDecks[i].length < quantities[i]) {
-            mythDecks[i].push(e);
-            mainDecks[i].splice(j, 1);
-          }
+    if (currentDifficulty === `very ${get}`) {
+      for (let i = 0; i < 2; i++) {
+        mainDecks.forEach((el, i) => {
+          el.forEach((e, j) => {
+            if (e.difficulty === get && mythDecks[i].length < quantities[i]) {
+              mythDecks[i].push(e);
+              mainDecks[i].splice(j, 1);
+            }
+          })
         })
-      })
+      }
     }
-
+    
     mainDecks.forEach((el, i) => {
       while (mythDecks[i].length < quantities[i]) {
         mythDecks[i].push(el.pop());
       }
     })
+  }
+
+  if (currentDifficulty === 'very easy' || currentDifficulty === 'easy') {
+    getMythDecks(variations[0], variations[1]);
+  }
+  if (currentDifficulty === 'very hard' || currentDifficulty === 'hard') {
+    getMythDecks(variations[1], variations[0]);
+  }
+  if (currentDifficulty === 'normal') {
+    getMythDecks(variations[2], variations[2]);
   }
 
   mythDecks.forEach(el => {
@@ -145,10 +159,6 @@ const getMythDeck = (green, brown, blue, ancient, stage, color) => {
   })
 
   setTrackers();
-  
-  console.log(mainDecks);
-  console.log(mythDecks);
-  console.log(stageDecks);
 
   return [...stageDecks[2], ...stageDecks[1], ...stageDecks[0]];
 }
@@ -160,7 +170,6 @@ mixWrap.addEventListener('click', () => {
   stagesWrap.style.visibility = 'visible';
   cardDeckBg.style.visibility = 'visible';
   gameDeck = getMythDeck(greenCardsData, brownCardsData, blueCardsData, currentAncient, stageNum, cardColors);
-  console.log(gameDeck);
 })
 
 //show current card

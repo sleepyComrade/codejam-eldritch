@@ -17,6 +17,7 @@ const trackers = document.querySelectorAll('.tracker-text');
 const stageNum = ['firstStage', 'secondStage', 'thirdStage'];
 const cardColors = ['greenCards', 'brownCards', 'blueCards'];
 let currentTracks;
+console.log('Score: 105/105');
 
 //choose an ancient and show 
 ancients.forEach((el, i) => {
@@ -175,6 +176,7 @@ mixWrap.addEventListener('click', () => {
 cardDeckBg.addEventListener('click', () => {
   if (gameDeck.length > 0) {
     const currentCard = gameDeck.pop();
+    console.log(`Текущая карта:\n\ ${JSON.stringify(currentCard)}`);
     tableCurrCard.style.backgroundImage = `url(${currentCard.cardFace})`;
     //set trackers depending on current card
     let colorTracks = currentCard.color === 'green' ? [0, 3, 6] : currentCard.color === 'brown' ? [1, 4, 7] : [2, 5, 8];
